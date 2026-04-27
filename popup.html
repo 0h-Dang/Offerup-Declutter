@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OfferUp Filter</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{width:280px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#1a1a1a;background:#fff}
+
+  .header{background:#f97316;color:#fff;padding:11px 14px 9px;display:flex;align-items:center;gap:9px}
+  .header-icon{width:22px;height:22px;background:rgba(255,255,255,0.22);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+  .header-text h1{font-size:14px;font-weight:600;letter-spacing:-0.01em}
+  .header-text p{font-size:11px;opacity:0.82;margin-top:1px}
+
+  .stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:#e5e5e5;border-bottom:1px solid #e5e5e5}
+  .stat{background:#fafafa;padding:9px 10px}
+  .stat-num{font-size:18px;font-weight:600;line-height:1}
+  .stat-label{font-size:10px;color:#888;margin-top:2px;text-transform:uppercase;letter-spacing:0.04em}
+  .c-red{color:#dc2626}.c-amber{color:#b45309}.c-purple{color:#7c3aed}.c-gray{color:#555}.c-orange{color:#ea580c}.c-green{color:#059669}
+
+  .section{padding:10px 14px;border-bottom:1px solid #f0f0f0}
+  .section-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#aaa;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+  .section-title span{font-size:9px;color:#bbb;font-weight:400;letter-spacing:0;text-transform:none}
+
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
+  .toggle-label{display:flex;align-items:center;gap:7px;font-size:12px;color:#333}
+  .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+  .dot-red{background:#dc2626}.dot-amber{background:#b45309}.dot-purple{background:#7c3aed}
+  .dot-black{background:#222}.dot-green{background:#059669}.dot-gray{background:#888}
+
+  .toggle{position:relative;width:30px;height:17px;flex-shrink:0}
+  .toggle input{opacity:0;width:0;height:0;position:absolute}
+  .toggle-track{position:absolute;inset:0;background:#ddd;border-radius:17px;cursor:pointer;transition:background .18s}
+  .toggle-track::after{content:'';position:absolute;left:2px;top:2px;width:13px;height:13px;border-radius:50%;background:#fff;transition:transform .18s}
+  .toggle input:checked+.toggle-track{background:#f97316}
+  .toggle input:checked+.toggle-track::after{transform:translateX(13px)}
+
+  .sub{font-size:10px;color:#aaa;margin-left:14px;margin-top:-2px;margin-bottom:4px;line-height:1.4}
+
+  .mode-row{display:flex;gap:5px;margin-top:2px}
+  .mode-btn{flex:1;padding:6px 0;border:1px solid #ddd;border-radius:6px;background:#fff;font-size:11px;font-weight:500;color:#666;cursor:pointer;text-align:center;transition:all .15s;font-family:inherit}
+  .mode-btn.active{background:#fff7ed;border-color:#f97316;color:#ea580c}
+
+  .pill-scroll{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;max-height:72px;overflow-y:auto;padding-right:2px}
+  .pill{font-size:10px;padding:2px 7px;border-radius:20px;background:#f3f4f6;color:#555;border:1px solid #e5e5e5;line-height:1.5}
+  .pill.es{background:#fef3c7;border-color:#fcd34d;color:#92400e}
+
+  .footer{padding:10px 14px;display:flex;gap:6px}
+  .btn{flex:1;padding:7px 0;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #ddd;background:#fff;color:#555;text-align:center;transition:all .15s;font-family:inherit}
+  .btn:hover{background:#f5f5f5}
+
+  .privacy{padding:8px 14px;font-size:10px;color:#bbb;line-height:1.5;border-top:1px solid #f0f0f0;text-align:center}
+  .no-page{padding:24px 14px;text-align:center;color:#999;font-size:12px;line-height:1.6}
+  .pill-scroll::-webkit-scrollbar{width:3px}
+  .pill-scroll::-webkit-scrollbar-thumb{background:#ddd;border-radius:3px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">F</div>
+  <div class="header-text">
+    <h1>OfferUp Filter</h1>
+    <p>Hiding the noise</p>
+  </div>
+</div>
+
+<div id="main-ui">
+  <div class="stats-grid">
+    <div class="stat"><div class="stat-num" id="s-total">—</div><div class="stat-label">Scanned</div></div>
+    <div class="stat"><div class="stat-num c-red" id="s-dups">—</div><div class="stat-label">Dupes</div></div>
+    <div class="stat"><div class="stat-num c-amber" id="s-fin">—</div><div class="stat-label">Financing</div></div>
+    <div class="stat"><div class="stat-num c-purple" id="s-dealers">—</div><div class="stat-label">Dealers</div></div>
+    <div class="stat"><div class="stat-num c-gray" id="s-ads">—</div><div class="stat-label">Ads</div></div>
+    <div class="stat"><div class="stat-num c-orange" id="s-dismissed">—</div><div class="stat-label">Restored</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spam filters</div>
+    <div class="toggle-row">
+      <label class="toggle-label" for="chk-dups"><span class="dot dot-red"></span>Duplicate images</label>
+      <label class="toggle"><input type="checkbox" id="chk-dups" checked><span class="toggle-track"></span></label>
+    </div>
+    <div class="toggle-row">
+      <label class="toggle-label" for="chk-fin"><span class="dot dot-amber"></span>Financing / $1 bait</label>
+      <label class="toggle"><input type="checkbox" id="chk-fin" checked><span class="toggle-track"></span></label>
+    </div>
+    <div class="sub">English &amp; Spanish patterns active</div>
+    <div class="toggle-row">
+      <label class="toggle-label" for="chk-dealers"><span class="dot dot-purple"></span>Dealer / store accounts</label>
+      <label class="toggle"><input type="checkbox" id="chk-dealers" checked><span class="toggle-track"></span></label>
+    </div>
+    <div class="toggle-row">
+      <label class="toggle-label" for="chk-price"><span class="dot dot-green"></span>Price compare badge</label>
+      <label class="toggle"><input type="checkbox" id="chk-price" checked><span class="toggle-track"></span></label>
+    </div>
+    <div class="sub">Badges similar listings priced higher than cheapest found</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Promoted ads</div>
+    <div class="toggle-row">
+      <label class="toggle-label" for="chk-ads"><span class="dot dot-black"></span>Dim &amp; badge ads</label>
+      <label class="toggle"><input type="checkbox" id="chk-ads" checked><span class="toggle-track"></span></label>
+    </div>
+    <div class="sub">Replaces "Promoted" label with "Ad" badge, desaturates card</div>
+    <div class="toggle-row">
+      <label class="toggle-label" for="chk-push"><span class="dot dot-gray"></span>Push ads to bottom</label>
+      <label class="toggle"><input type="checkbox" id="chk-push" checked><span class="toggle-track"></span></label>
+    </div>
+    <div class="toggle-row">
+      <label class="toggle-label" for="chk-pfirst"><span class="dot dot-gray"></span>Promoted first</label>
+      <label class="toggle"><input type="checkbox" id="chk-pfirst"><span class="toggle-track"></span></label>
+    </div>
+    <div class="sub">Overrides "push to bottom" — puts ads at top</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spam display mode</div>
+    <div class="mode-row">
+      <button class="mode-btn active" id="mode-dim">Dim</button>
+      <button class="mode-btn" id="mode-hide">Hide</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Detected patterns <span>white = English · yellow = Spanish</span></div>
+    <div class="pill-scroll">
+      <span class="pill">$0 / $1 price</span>
+      <span class="pill">financing</span>
+      <span class="pill">lease-to-own</span>
+      <span class="pill">no credit check</span>
+      <span class="pill">buy now pay later</span>
+      <span class="pill">rent-to-own</span>
+      <span class="pill">everyone approved</span>
+      <span class="pill">payment plan</span>
+      <span class="pill">$0 down</span>
+      <span class="pill">apply now/online</span>
+      <span class="pill">bad/good credit</span>
+      <span class="pill">weekly payment</span>
+      <span class="pill">Acima</span>
+      <span class="pill">Snap Finance</span>
+      <span class="pill">Progressive Leasing</span>
+      <span class="pill es">enganche</span>
+      <span class="pill es">sin crédito</span>
+      <span class="pill es">financiamiento</span>
+      <span class="pill es">no licensia</span>
+      <span class="pill es">aprobado</span>
+      <span class="pill es">semanal</span>
+      <span class="pill es">mensual</span>
+      <span class="pill es">con pasaporte</span>
+      <span class="pill es">ITIN</span>
+      <span class="pill es">sin inicial</span>
+      <span class="pill es">aplica/aplican</span>
+      <span class="pill es">garantía</span>
+      <span class="pill es">pagos</span>
+    </div>
+  </div>
+
+  <div class="footer">
+    <button class="btn" id="btn-restore">Restore all</button>
+  </div>
+
+  <div class="privacy">No browsing data collected or transmitted.<br>All filtering runs locally in your browser.</div>
+</div>
+
+<div class="no-page" id="no-page" style="display:none">
+  Open OfferUp in this tab<br>to use the filter.
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>

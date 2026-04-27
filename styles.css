@@ -1,0 +1,89 @@
+/* OfferUp Filter — injected styles. No external resources loaded. */
+
+/* Dimmed (spam/duplicates) */
+[data-ou-filtered].ou-filter-dim {
+  opacity: 0.28 !important;
+  transition: opacity 0.2s ease;
+  position: relative;
+}
+[data-ou-filtered].ou-filter-dim:hover {
+  opacity: 0.72 !important;
+}
+
+/* Hidden */
+[data-ou-filtered].ou-filter-hide {
+  display: none !important;
+}
+
+/* Ad treatment — lighter dim, desaturated */
+[data-ou-ad-badged].ou-filter-ad {
+  opacity: 0.55 !important;
+  filter: saturate(0.35) !important;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+[data-ou-ad-badged].ou-filter-ad:hover {
+  opacity: 0.88 !important;
+  filter: saturate(0.75) !important;
+}
+
+/* Restored */
+[data-ou-filtered].ou-filter-restored {
+  opacity: 1 !important;
+  display: block !important;
+  filter: none !important;
+}
+
+/* Overlay container */
+.ou-filter-overlay {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+[data-ou-filtered],
+[data-ou-ad-badged] {
+  position: relative !important;
+}
+
+/* Badges */
+.ou-filter-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  line-height: 1.6;
+  pointer-events: none;
+  width: fit-content;
+}
+
+.ou-badge-duplicate  { background: rgba(220, 38,  38,  0.9); color: #fff; }
+.ou-badge-financing  { background: rgba(180, 83,  9,   0.92); color: #fff; }
+.ou-badge-dealer     { background: rgba(109, 40,  217, 0.9); color: #fff; }
+.ou-badge-ad         { background: rgba(30,  30,  30,  0.82); color: #fff; }
+.ou-badge-price      { background: rgba(5,   150, 105, 0.88); color: #fff; }
+
+/* Show/restore button */
+.ou-filter-restore {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.55);
+  background: rgba(0,0,0,0.42);
+  color: #fff;
+  cursor: pointer;
+  line-height: 1.6;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 600;
+  width: fit-content;
+  font-family: inherit;
+}
+.ou-filter-restore:hover { background: rgba(0,0,0,0.65); }
