@@ -1,4 +1,4 @@
-# OfferUp Filter
+# OfferUp Declutter
 
 > A Chrome extension for **informed shoppers** — automatically flags duplicate listings, financing bait, and dealer spam so you can browse smarter without clicking into every single listing.
 
@@ -14,6 +14,25 @@
 Scrolling through OfferUp can feel like wading through noise — the same item listed across a dozen cities, $1 bait prices hiding a lease-to-own scheme, and store accounts dressed up as private sellers. Instead of clicking in and out of listing after listing to figure out what you're actually looking at, this extension surfaces that information right on the browse page.
 
 Duplicates, financing language, and dealer accounts get flagged inline so you can make faster, more informed decisions without losing your place in the feed.
+
+---
+
+## Screenshots
+
+![Duplicate listings dimmed](Screenshots/Duplicate-Dimmed-A.png)
+*Duplicate listings automatically dimmed with badge overlay and a Show button to restore*
+
+![Duplicates across the feed](Screenshots/Duplicates-Dimmed-B.png)
+*Multiple duplicates caught across the same search — same seller relisting across cities*
+
+![Financing listings dimmed](Screenshots/Financing-Dimmed-A.png)
+*Financing and $0 bait listings flagged and dimmed inline, price compare badges active*
+
+![Financing listings dimmed alternate view](Screenshots/Financing-Dimmed-B.png)
+*Dealer storefronts and financing listings filtered from a busy feed*
+
+![Extension popup with live stats](Screenshots/Extension-Settings.png)
+*Popup showing live scan stats, filter toggles, and Dim/Hide mode — 95 listings scanned, 3 dupes and 1 financing listing caught*
 
 ---
 
@@ -57,6 +76,77 @@ Duplicates, financing language, and dealer accounts get flagged inline so you ca
 
 - Browse OfferUp normally — filtering runs automatically as you scroll
 - Click the **F icon** in your toolbar to see live stats and toggle individual filters
+- Flagged listings are dimmed with a badge overlay
+- Each flagged listing has a **Show** button to manually restore it
+- Switch between **Dim** (grayed out) and **Hide** (fully removed) in the popup
+- Use **Restore all** to undo all filtering on the current page
+
+---
+
+## Filter options
+
+| Option | What it does |
+|--------|-------------|
+| Duplicate images | Dims listings that share a photo URL with another listing |
+| Financing / $1 bait | Dims listings with financing language in title or description |
+| Dealer / store accounts | Dims verified business accounts and known financing storefronts |
+| Price compare badge | Adds a green badge to listings priced above the cheapest similar item found |
+| Dim & badge ads | Desaturates promoted listings and replaces "Promoted" with an "Ad" badge |
+| Push ads to bottom | Moves promoted listings to the end of the feed |
+| Promoted first | Moves promoted listings to the top (overrides "push to bottom") |
+
+---
+
+## Privacy
+
+All filtering runs **locally in your browser**. No browsing data, search terms, or listing details are collected, stored, or transmitted anywhere. The extension has no analytics, no telemetry, and no external server.
+
+---
+
+## Contributing
+
+Contributions are very welcome — this is an open project built to help everyday shoppers, not a commercial product.
+
+**Good places to start:**
+
+- Adding new financing or dealer keywords (especially Spanish patterns)
+- Improving duplicate detection beyond photo URL matching
+- Supporting Firefox / Edge (manifest adjustments needed)
+- Improving the price comparison logic
+- UI polish on the popup
+
+**To contribute:**
+
+1. Fork the repo
+2. Create a branch (`git checkout -b feature/your-idea`)
+3. Make your changes
+4. Open a pull request with a short description of what you changed and why
+
+If you're not sure where to start, open an [Issue](../../issues) describing what you'd like to improve and we can figure it out together.
+
+---
+
+## Roadmap ideas
+
+- [ ] Seller history flagging (repeat offenders across sessions)
+- [ ] Configurable keyword lists (let users add their own terms)
+- [ ] Firefox support
+- [ ] Export flagged listings to CSV
+- [ ] Auto-update without reinstalling
+
+---
+
+## Updates
+
+Replace the files in your local folder with the latest from this repo, then click the **refresh icon** on `chrome://extensions`.
+
+---
+
+## License
+
+Released under the [MIT License](LICENSE). Free to use, modify, and distribute. Attribution appreciated but not required.
+
+> Built for informed shoppers everywhere. Not affiliated with OfferUp.
 - Flagged listings are dimmed with a badge overlay
 - Each flagged listing has a **Show** button to manually restore it
 - Switch between **Dim** (grayed out) and **Hide** (fully removed) in the popup
